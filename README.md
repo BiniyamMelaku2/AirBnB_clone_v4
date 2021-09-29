@@ -150,6 +150,67 @@ EOF  all  create  destroy  help  quit  show  update
 (hbnb) quit
 ```
 
+## AirBnB clone - Web dynamic
+You will work on a codebase using [Flasgger](https://github.com/flasgger/flasgger), you will need to install it locally first before starting the RestAPI:
+```
+$ sudo apt-get install -y python3-lxml
+$ sudo pip3 install flask_cors # if it was not installed yet
+$ sudo pip3 install flasgger
+```
+
+If the RestAPI is not starting, please read the error message. Based on the(ses) error message(s), you will have to troubleshoot potential dependencies issues.
+
+Here some solutions:
+
+jsonschema exception
+> $ sudo pip3 uninstall -y jsonschema   
+> $ sudo pip3 install jsonschema==3.0.1  
+No module named 'pathlib2'
+> $ sudo pip3 install pathlib2
+
+## [1. Cash only](./web_dynamic/0-hbnb.py) and [0-hbnb.html](./web_dynamic/templates/0-hbnb.html)
+a script that starts a Flask web application:
+
+> $ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_dynamic.0-hbnb
+
+> $ curl -s -XGET http://0.0.0.0:5000/0-hbnb/ | head -6
+
+## [2. Select some Amenities to be comfortable!](./web_dynamic/1-hbnb.py), [1-hbnb.html](./web_dynamic/templates/1-hbnb.html) and [1-hbnb.js](./web_dynamic/static/scripts/1-hbnb.js)
+* Create a new template 1-hbnb.html
+* Write a JavaScript script (static/scripts/1-hbnb.js
+> $ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_dynamic.1-hbnb
+
+## [3. API status](./api/v1/app.py) , [2-hbnb.py](./web_dynamic/2-hbnb.py), [2-hbnb.html](./web_dynamic/templates/2-hbnb.html), [3-header.css](./web_dynamic/static/styles/3-header.css), [2-hbnb.js](./web_dynamic/static/scripts/2-hbnb.js) 
+* Update the API entry point (api/v1/app.py) by replacing the current CORS CORS(app, origins="0.0.0.0") by CORS(app, resources={r"/api/v1/*": {"origins": "*"}}).
+* Create a new template 2-hbnb.html (based on 1-hbnb.html) and update it:
+* Write a JavaScript script (static/scripts/2-hbnb.js):
+* Request http://0.0.0.0:5001/api/v1/status/:
+        If in the status is “OK”, add the class available to the div#api_status
+        Otherwise, remove the class available to the div#api_status
+* To start the API in the port 5001:
+> HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db HBNB_API_PORT=5001 python3 -m api.v1.app
+
+> $ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_dynamic.2-hbnb
+## [4. Fetch places](./web_dynamic/3-hbnb.py), [3-hbnb.html](./web_dynamic/templates/3-hbnb.html) and [3-hbnb.js](./web_dynamic/static/scripts/3-hbnb.js)
+* Create a new template 3-hbnb.html (based on 2-hbnb.html) and update it:
+* Write a JavaScript script (static/scripts/3-hbnb.js):
+* Request http://0.0.0.0:5001/api/v1/places_search/:
+        Description of this endpoint here. If this endpoint is not available, you will have to add it to the API (you can work all together for creating this endpoint)
+        Send a POST request with Content-Type: application/json and an empty dictionary in the body - cURL version: curl "http://0.0.0.0:5001/api/v1/places_search" -XPOST -H "Content-Type: application/json" -d '{}'
+        Loop into the result of the request and create an article tag representing a Place in the section.places. (you can remove the Owner tag in the place description)
+> $ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_dynamic.3-hbnb
+
+## [5. Filter places by Amenity](./web_dynamic/4-hbnb.py), [4-hbnb.html](./web_dynamic/templates/4-hbnb.html) and [4-hbnb.js](./web_dynamic/static/scripts/4-hbnb.js))
+* Create a new template 4-hbnb.html (based on 3-hbnb.html) and update it:
+* Write a JavaScript script (static/scripts/4-hbnb.js):
+* When the button tag is clicked, a new POST request to places_search should be made with the list of Amenities checked
+> $ HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db python3 -m web_dynamic.4-hbnb
+
+> HBNB_MYSQL_USER=hbnb_dev HBNB_MYSQL_PWD=hbnb_dev_pwd HBNB_MYSQL_HOST=localhost HBNB_MYSQL_DB=hbnb_dev_db HBNB_TYPE_STORAGE=db HBNB_API_PORT=5001 python3 -m api.v1.app
+
+
+
+
 ## Bugs
 No known bugs at this time. 
 
@@ -157,9 +218,9 @@ No known bugs at this time.
 Alexa Orrico - [Github](https://github.com/alexaorrico) / [Twitter](https://twitter.com/alexa_orrico)  
 Jennifer Huang - [Github](https://github.com/jhuang10123) / [Twitter](https://twitter.com/earthtojhuang)  
 Jhoan Zamora - [Github](https://github.com/jzamora5) / [Twitter](https://twitter.com/JhoanZamora10)  
-David Ovalle - [Github](https://github.com/Nukemenonai) / [Twitter](https://twitter.com/disartDave)
-Biniyam Melaku - [Github](https://github.com/BiniyamMelaku2) [Twitter]()
-Taremowei Appah - [Github](https://github.com/grillzwitu) / [Twitter](https://twitter.com/grillzwitu_)
+David Ovalle - [Github](https://github.com/Nukemenonai) / [Twitter](https://twitter.com/disartDave)   
+Biniyam Melaku - [Github](https://github.com/BiniyamMelaku2) [Twitter](https://twitter.com/Biniyam_Melaku2)  
+Taremowei Appah - [Github](https://github.com/grillzwitu) / [Twitter](https://twitter.com/grillzwitu_)  
 
 Second part of Airbnb: Joann Vuong
 ## License
